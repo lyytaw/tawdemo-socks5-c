@@ -4,9 +4,9 @@
 
 #include <stdio.h>
 #include <netinet/in.h>
-#include <zconf.h>
 #include <netdb.h>
 #include <memory.h>
+#include <unistd.h>
 #include "client.h"
 #include "common.h"
 #include "config.h"

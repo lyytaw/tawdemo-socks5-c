@@ -3,7 +3,7 @@
 //
 
 #include <printf.h>
-#include <zconf.h>
+#include <unistd.h>
 #include <netinet/in.h>
 #include <memory.h>
 #include <netdb.h>
