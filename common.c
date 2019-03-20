@@ -2,9 +2,12 @@
 // Created by cayun on 2019-03-17.
 //
 
+#include <stdio.h>
 #include <sys/socket.h>
 #include <memory.h>
+#include <netinet/in.h>
 #include "common.h"
+#include "exception.h"
 
 #define RETRY_TIME 10
 
@@ -48,4 +51,43 @@ ssize_t retrySend(int sockfd, const void *buf, size_t len) {
         }
     }
     return -1;
+}
+
+int createListeningSocket(int port) {
+    int listeningSock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (listeningSock < 0) {
+        return SERVER_SOCKET_CREATE_ERROR;
+    }
+
+    int optval;
+    setsockopt(listeningSock, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
+
+    struct sockaddr_in serverAddr;
+    memset(&serverAddr, 0, sizeof(serverAddr));
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(port);
+    serverAddr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+    if (bind(listeningSock, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) != 0) {
+        return SERVER_SOCKET_BIND_ERROR;
+    }
+
+    if (listen(listeningSock, 30) != 0) {
+        return SERVER_SOCKET_LISTEN_ERROR;
+    }
+
+    return listeningSock;
+}
+
+void forwardData(int srcSock, int dstSock, int encryption) {
+    char buffer[8192];
+    ssize_t n;
+    while ((n = retryRecv(srcSock, buffer, 8000)) > 0) {
+        printf("%d->%d: %d\n", srcSock, dstSock, (int)n);
+        if (retrySend(dstSock, buffer, (size_t)n) < 0) {
+            break;
+        }
+    }
+    shutdown(srcSock, SHUT_RDWR);
+    shutdown(dstSock, SHUT_RDWR);
 }

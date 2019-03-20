@@ -34,4 +34,19 @@ ssize_t retryRecv(int sockfd, void *buf, size_t len);
 
 ssize_t retrySend(int sockfd, const void *buf, size_t len);
 
+/**
+ * 创建监听socket
+ * @param port
+ * @return
+ */
+int createListeningSocket(int port);
+
+/**
+ * 传输数据
+ * @param srcSock
+ * @param dstSock
+ * @param encryption 1.加密 0.解密
+ */
+void forwardData(int srcSock, int dstSock, int encryption);
+
 #endif //YYL_BRIDGE_COMMON_H

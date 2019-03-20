@@ -7,7 +7,10 @@
 
 struct Config {
     int localPort;   // -p [port], 本地监听端口
-    int daemon;      // -d, 是否后台运行
+    int client;      // 客户端模式
+    int server;      // 服务端模式
+    char* serverHost;  // 客户端模式下，需要指定服务端地址
+    int serverPort;  // 客户端模式下，需要指定服务端端口
 };
 
 #endif //YYL_BRIDGE_CONFIG_H
