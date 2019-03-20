@@ -83,7 +83,6 @@ void forwardData(int srcSock, int dstSock, int encryption) {
     char buffer[8192];
     ssize_t n;
     while ((n = retryRecv(srcSock, buffer, 8000)) > 0) {
-        printf("%d->%d: %d\n", srcSock, dstSock, (int)n);
         if (retrySend(dstSock, buffer, (size_t)n) < 0) {
             break;
         }
