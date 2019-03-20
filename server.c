@@ -144,7 +144,7 @@ void startServer(struct Config config) {
     printf("start server...\n");
     int serverSock = createListeningSocket(config.localPort);
     if (serverSock < 0) {
-        fprintf(stderr, "Cannot create server socket.");
+        printf("Cannot create server socket.");
         exit(serverSock);
     }
 

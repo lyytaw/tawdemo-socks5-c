@@ -63,7 +63,7 @@ void startClient(struct Config config) {
     printf("start client...\n");
     int clientSock = createListeningSocket(config.localPort);
     if (clientSock < 0) {
-        fprintf(stderr, "Cannot create listening socket on port %d.", config.localPort);
+        printf("Cannot create listening socket on port %d.\n", config.localPort);
         exit(clientSock);
     }
 
