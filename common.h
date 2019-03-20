@@ -6,7 +6,6 @@
 #define YYL_BRIDGE_COMMON_H
 
 #include <stdlib.h>
-#include <ntsid.h>
 #include <sys/socket.h>
 
 typedef unsigned char Byte;
