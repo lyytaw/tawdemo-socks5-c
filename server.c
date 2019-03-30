@@ -15,7 +15,7 @@ int validateSock5Connection(int clientSock) {
     printf("validate sock5 connection.\n");
     char buffer[SOCK5_VALIDATE_REQUEST_MAX_LENGTH];
 
-    if (retryRecv(clientSock, buffer, SOCK5_VALIDATE_REQUEST_MAX_LENGTH) < 0) {
+    if (retryRecv(clientSock, buffer, SOCK5_VALIDATE_REQUEST_MAX_LENGTH, 1) < 0) {
         return -1;
     }
 
@@ -38,13 +38,13 @@ int validateSock5Connection(int clientSock) {
     struct Sock5ValidateResponse response;
     response.version = 0x05;
     response.method = ok ? (Byte)0x00 : (Byte)0xFF;
-    return (int)retrySend(clientSock, Sock5ValidateResponse_toString(response), 2);
+    return (int)retrySend(clientSock, Sock5ValidateResponse_toString(response), 2, 1);
 }
 
 int createSock5Connection(struct Config config, int clientSock) {
     printf("create sock5 connection.\n");
     char buffer[SOCK5_BUILD_REQUEST_MAX_LENGTH];
-    if (retryRecv(clientSock, buffer, SOCK5_BUILD_REQUEST_MAX_LENGTH) < 0) {
+    if (retryRecv(clientSock, buffer, SOCK5_BUILD_REQUEST_MAX_LENGTH, 1) < 0) {
         return -1;
     }
 
@@ -91,7 +91,7 @@ int createSock5Connection(struct Config config, int clientSock) {
     response.bndAddr = (Byte *)&ip;
     response.bndPort = (ushort)config.localPort;
     char* responseStr = Sock5BuildResponse_toString(response);
-    if (retrySend(clientSock, responseStr, Sock5BuildResponse_getLength(response)) < 0) {
+    if (retrySend(clientSock, responseStr, Sock5BuildResponse_getLength(response), 1) < 0) {
         return -1;
     }
 

@@ -29,9 +29,9 @@ char* Byte_arrayToStr(Byte *src, size_t n);
 
 int	retryConnect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);
 
-ssize_t retryRecv(int sockfd, void *buf, size_t len);
+ssize_t retryRecv(int sockfd, void *buf, size_t len, int mark);
 
-ssize_t retrySend(int sockfd, const void *buf, size_t len);
+ssize_t retrySend(int sockfd, const void *buf, size_t len, int mark);
 
 /**
  * 创建监听socket

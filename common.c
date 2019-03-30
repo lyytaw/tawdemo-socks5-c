@@ -34,22 +34,43 @@ int	retryConnect(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
     return -1;
 }
 
-ssize_t retryRecv(int sockfd, void *buf, size_t len) {
+ssize_t retryRecv(int sockfd, void *buf, size_t len, int mark) {
     for (int i = 0; i < RETRY_TIME; i++) {
-        ssize_t result = recv(sockfd, buf, len, 0);
-        if (result >= 0) {
-            return result;
+        if  (mark == 0) {
+            ssize_t result = recv(sockfd, buf, len, 0);
+            if (result >= 0) {
+                return result;
+            }
+        } else if (mark == 1) {
+            char srcBuf[8192];
+            ssize_t srcLen = recv(sockfd, buf, len, 0);
+            if (srcLen >= 0) {
+                uLong result;
+                uncompress((Byte *)buf, &result, (Byte *)srcBuf, (uLong)srcLen);
+                return (ssize_t)result;
+            }
         }
     }
     return -1;
 }
 
-ssize_t retrySend(int sockfd, const void *buf, size_t len) {
+ssize_t retrySend(int sockfd, const void *buf, size_t len, int mark) {
     for (int i = 0; i < RETRY_TIME; i++) {
-        ssize_t result = send(sockfd, buf, len, 0);
-        if (result >= 0) {
-            return result;
+        if (mark == 0) {
+            ssize_t result = send(sockfd, buf, len, 0);
+            if (result >= 0) {
+                return result;
+            }
+        } else if (mark == 1) {
+            char dstBuf[8192];
+            uLong dstLen;
+            compress((Byte *)dstBuf, &dstLen, buf, len);
+            ssize_t result = send(sockfd, dstBuf, dstLen, 0);
+            if (result >= 0) {
+                return result;
+            }
         }
+
     }
     return -1;
 }
@@ -83,25 +104,9 @@ int createListeningSocket(int port) {
 void forwardData(int srcSock, int dstSock, int mark) {
     char buffer[8192];
     ssize_t n;
-    while ((n = retryRecv(srcSock, buffer, 8000)) > 0) {
-        if (mark == 1) {  // 接收时解压数据
-            char dstBuffer[8192];
-            uLong dstLen;
-            uncompress((Byte *)dstBuffer, &dstLen, (Byte *)buffer, (uLong)n);
-            if (retrySend(dstSock, dstBuffer, dstLen) < 0) {
-                break;
-            }
-        } else if (mark == 2) {  // 发送前压缩数据
-            char dstBuffer[8192];
-            uLong dstLen;
-            compress((Byte *)dstBuffer, &dstLen, (Byte *)buffer, (uLong)n);
-            if (retrySend(dstSock, dstBuffer, dstLen) < 0) {
-                break;
-            }
-        } else {  // 不做任何处理
-            if (retrySend(dstSock, buffer, (size_t)n) < 0) {
-                break;
-            }
+    while ((n = retryRecv(srcSock, buffer, 8000, mark == 1)) > 0) {
+        if (retrySend(dstSock, buffer, (size_t)n, mark == 2) < 0) {
+            break;
         }
     }
     shutdown(srcSock, SHUT_RDWR);
