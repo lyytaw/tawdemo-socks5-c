@@ -109,11 +109,11 @@ void handleClientRequest(struct Config config, int clientSock) {
     }
 
     if (fork() == 0) {
-        forwardData(clientSock, remoteSock, 0);
+        forwardData(clientSock, remoteSock, 1);
         exit(0);
     }
     if (fork() == 0) {
-        forwardData(remoteSock, clientSock, 1);
+        forwardData(remoteSock, clientSock, 2);
         exit(0);
     }
 }

@@ -28,11 +28,11 @@ int handleUserRequest(struct Config config, int userSock) {
     }
 
     if (fork() == 0) {
-        forwardData(userSock, serverSock, 1);
+        forwardData(userSock, serverSock, 2);
         exit(0);
     }
     if (fork() == 0) {
-        forwardData(serverSock, userSock, 0);
+        forwardData(serverSock, userSock, 1);
         exit(0);
     }
 

@@ -44,8 +44,8 @@ int createListeningSocket(int port);
  * 传输数据
  * @param srcSock
  * @param dstSock
- * @param encryption 1.加密 0.解密
+ * @param mark 0. 不做处理 1. recv时解压 2. send时压缩
  */
-void forwardData(int srcSock, int dstSock, int encryption);
+void forwardData(int srcSock, int dstSock, int mark);
 
 #endif //YYL_BRIDGE_COMMON_H

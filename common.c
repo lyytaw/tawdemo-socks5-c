@@ -6,6 +6,7 @@
 #include <sys/socket.h>
 #include <memory.h>
 #include <netinet/in.h>
+#include <zlib.h>
 #include "common.h"
 #include "exception.h"
 
@@ -79,12 +80,28 @@ int createListeningSocket(int port) {
     return listeningSock;
 }
 
-void forwardData(int srcSock, int dstSock, int encryption) {
+void forwardData(int srcSock, int dstSock, int mark) {
     char buffer[8192];
     ssize_t n;
     while ((n = retryRecv(srcSock, buffer, 8000)) > 0) {
-        if (retrySend(dstSock, buffer, (size_t)n) < 0) {
-            break;
+        if (mark == 1) {  // 接收时解压数据
+            char dstBuffer[8192];
+            uLong dstLen;
+            uncompress((Byte *)dstBuffer, &dstLen, (Byte *)buffer, (uLong)n);
+            if (retrySend(dstSock, dstBuffer, dstLen) < 0) {
+                break;
+            }
+        } else if (mark == 2) {  // 发送前压缩数据
+            char dstBuffer[8192];
+            uLong dstLen;
+            compress((Byte *)dstBuffer, &dstLen, (Byte *)buffer, (uLong)n);
+            if (retrySend(dstSock, dstBuffer, dstLen) < 0) {
+                break;
+            }
+        } else {  // 不做任何处理
+            if (retrySend(dstSock, buffer, (size_t)n) < 0) {
+                break;
+            }
         }
     }
     shutdown(srcSock, SHUT_RDWR);
