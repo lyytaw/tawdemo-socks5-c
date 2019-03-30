@@ -5,6 +5,8 @@ set(CMAKE_C_STANDARD 99)
 
 add_executable(yyl_bridge main.c sock5.c sock5.h config.c config.h exception.h common.h common.c client.c client.h server.c server.h)
 
-find_library(ZLIB_LIBRARY libz.dylib /usr/local/opt/zlib)
-
-target_link_libraries(yyl_bridge ${ZLIB_LIBRARY})
+find_package(ZLIB REQUIRED)
+if (ZLIB_FOUND)
+    include_directories(${ZLIB_INCLUDE_DIRS})
+    target_link_libraries(yyl_bridge ${ZLIB_LIBRARIES})
+endif(ZLIB_FOUND)
