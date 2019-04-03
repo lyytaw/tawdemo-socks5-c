@@ -10,7 +10,26 @@ yyl-bridge为一个c语言编写的sock5代理工具，需要同时部署客户�
 
 ### 使用方式
 
-##### 1. 构建编译
+##### 1. 预装软件
+
+**zlib**
+
+macOS
+
+```bash
+brew install zlib
+ln -s /usr/local/Cellar/zlib/1.2.11/lib/libz.a /usr/local/lib/libz.a
+ln -s /usr/local/Cellar/zlib/1.2.11/lib/libz.dylib /usr/local/lib/libz.dylib
+ln -s /usr/local/Cellar/zlib/1.2.11/lib/pkgconfig/zlib.pc /usr/local/lib/pkgconfig/zlib.pc
+```
+
+ubuntu
+
+```bash
+apt-get install zlib1g-dev
+```
+
+##### 2. 构建编译
 
 ```bash
 git clone https://github.com/yunyuliu/yyl-bridge.git
@@ -19,7 +38,7 @@ cmake .
 make
 ```
 
-##### 2. 使用
+##### 3. 使用
 
 **客户端**
 

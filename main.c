@@ -6,24 +6,18 @@
 #include "client.h"
 #include "server.h"
 
+void sigchld_handler(int signal) {
+    while (waitpid(-1, NULL, WNOHANG) > 0);
+}
+
 int main(int argc, char *argv[]) {
-    struct Config config;
-    int opt;
-    opterr = 0;
-    while ((opt = getopt(argc, argv, "P:csh:p:")) != EOF) {
-        switch (opt) {
-            case 'P': config.localPort = atoi(optarg); break;
-            case 'c': config.client = 1; break;
-            case 's': config.server = 1; break;
-            case 'h': config.serverHost = optarg; break;
-            case 'p': config.serverPort = atoi(optarg); break;
-        }
-    }
-    signal(SIGCHLD, SIG_IGN);
+    struct Config config = configNew(argc, argv);
+    signal(SIGCHLD, sigchld_handler);
     if (config.client) {
         startClient(config);
     } else if (config.server) {
         startServer(config);
     }
+    configFree(config);
     return 0;
 }

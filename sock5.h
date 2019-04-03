@@ -5,82 +5,55 @@
 #ifndef YYL_BRIDGE_SOCK5_H
 #define YYL_BRIDGE_SOCK5_H
 
-#include "common.h"
+#include "ystring.h"
 
-#define SOCK5_VALIDATE_REQUEST_MAX_LENGTH 3
-#define SOCK5_BUILD_REQUEST_MAX_LENGTH 263
+#define CMD_CONNECT 0x01
+#define CMD_BIND 0x02
+#define CMD_UDP 0x03
 
-struct Sock5ValidateRequest {
-    Byte version;
-    Byte methodNum;
-    Byte *methods;
+#define ATYP_IPV4 0x01
+#define ATYP_DOMAIN 0x03
+#define ATYP_IPV6 0x04
+
+struct SocksValidateRequest {
+    char version;
+    char methodNum;
+    char methods[300];
 };
 
-struct Sock5ValidateResponse {
-    Byte version;
-    Byte method;
+struct SocksValidateResponse {
+    char version;
+    char method;
 };
 
-struct Sock5BuildRequest {
-    Byte version;
-    Byte cmd;
-    Byte rsv;
-    Byte atyp;
-    Byte addrLength;  // 地址长度
-    Byte *dstAddr;
-    ushort dstPort;
+struct SocksBuildRequest {
+    char version;
+    char cmd;
+    char rsv;
+    char atyp;
+    ystring dstAddr;
+    short dstPort;
 };
 
-struct Sock5BuildResponse {
-    Byte version;
-    Byte rep;
-    Byte rsv;
-    Byte atyp;
-    Byte addrLength; // 地址长度
-    Byte *bndAddr;
-    ushort bndPort;
+struct SocksBuildResponse {
+    char version;
+    char rep;
+    char rsv;
+    char atyp;
+    ystring bndAddr;
+    short bndPort;
 };
 
-/**
- * 读取sock5验证请求
- * @param buffer
- * @return
- */
-struct Sock5ValidateRequest Sock5ValidateRequest_read(Byte *buffer);
+struct SocksValidateRequest socksVReqNew(ystring buffer);
 
-/**
- * 获取Sock5ValidateResponse的总长度
- * @param response
- * @return
- */
-size_t Sock5ValidateResponse_getLength(struct Sock5ValidateResponse response);
+ystring socksVRespToStr(struct SocksValidateResponse response);
 
-/**
- * 将sock5验证响应转换为字符串
- * @param response
- * @return
- */
-char* Sock5ValidateResponse_toString(struct Sock5ValidateResponse response);
+struct SocksBuildRequest socksBReqNew(ystring buffer);
 
-/**
- * 读取sock5建立连接请求
- * @param buffer
- * @return
- */
-struct Sock5BuildRequest Sock5BuildRequest_read(Byte *buffer);
+void socksBReqFree(struct SocksBuildRequest request);
 
-/**
- * 获取Sock5BuildResponse的总长度
- * @param response
- * @return
- */
-size_t Sock5BuildResponse_getLength(struct Sock5BuildResponse response);
+ystring socksBRespToStr(struct SocksBuildResponse response);
 
-/**
- * 将sock5建立连接请求转换为字符串
- * @param response
- * @return
- */
-char* Sock5BuildResponse_toString(struct Sock5BuildResponse response);
+void socksBRespFree(struct SocksBuildResponse response);
 
 #endif //YYL_BRIDGE_SOCK5_H
