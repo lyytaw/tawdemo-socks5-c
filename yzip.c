@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include "yzip.h"
 
-const int MAX_DATA_LENGTH = 300000;
+#define MAX_DATA_LENGTH 300000
 
 char dstBuf[MAX_DATA_LENGTH];
 
