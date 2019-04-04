@@ -16,13 +16,19 @@ ystring ynetRecv(int sockfd, bool unzip) {
     if (unzip) {
         ystring unzipData = yzipUncompress(data);
         ystringFree(data);
+        printf("------------\nsrecv\n");
+        ystringDebug(unzipData);
         return unzipData;
     } else {
+        printf("------------\nsrecv\n");
+        ystringDebug(data);
         return data;
     }
 }
 
 bool ynetSend(int sockfd, ystring str, bool zip) {
+    printf("------------\nsend\n");
+    ystringDebug(str);
     if (zip) {
         ystring zipData = yzipCompress(str);
         bool ret = ysocketSend(sockfd, zipData, zip);
