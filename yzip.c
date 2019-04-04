@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include "yzip.h"
 
+#define ZIP_LEVEL 3
 #define MAX_DATA_LENGTH 300000
 
 char dstBuf[MAX_DATA_LENGTH];
@@ -17,7 +18,7 @@ ystring yzipCompress(ystring str) {
         return ystringNew("");
     }
     uLong dstLen = compressBound((uLong)ystringLength(str));
-    compress((Byte *)dstBuf, &dstLen, (Byte *)ystringData(str), (uLong)ystringLength(str));
+    compress2((Byte *)dstBuf, &dstLen, (Byte *)ystringData(str), (uLong)ystringLength(str), ZIP_LEVEL);
     ystring result = ystringNewN(dstBuf, (int)dstLen);
     return result;
 }
