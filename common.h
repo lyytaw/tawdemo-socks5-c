@@ -2,8 +2,8 @@
 // Created by cayun on 2019-03-17.
 //
 
-#ifndef YYL_BRIDGE_COMMON_H
-#define YYL_BRIDGE_COMMON_H
+#ifndef MZZ_BRIDGE_C_COMMON_H
+#define MZZ_BRIDGE_C_COMMON_H
 
 #include <stdlib.h>
 #include <sys/socket.h>
@@ -48,4 +48,4 @@ int createListeningSocket(int port);
  */
 void forwardData(int srcSock, int dstSock, int encryption);
 
-#endif //YYL_BRIDGE_COMMON_H
+#endif //MZZ_BRIDGE_C_COMMON_H

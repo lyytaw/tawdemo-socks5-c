@@ -1,6 +1,6 @@
-# yyl-bridge
+# mzz-bridge-c
 
-yyl-bridge为一个c语言编写的sock5代理工具，需要同时部署客户端和服务端。
+mzz-bridge-c为一个c语言编写的sock5代理工具，需要同时部署客户端和服务端。
 
 本项目仅作研究linux底层网络通信学习使用。
 
@@ -13,8 +13,8 @@ yyl-bridge为一个c语言编写的sock5代理工具，需要同时部署客户�
 ##### 1. 构建编译
 
 ```bash
-git clone https://github.com/yunyuliu/yyl-bridge.git
-cd yyl-bridge
+git clone https://github.com/muzaozong/mzz-bridge-c.git
+cd mzz-bridge-c
 cmake .
 make
 ```
@@ -24,13 +24,13 @@ make
 **客户端**
 
 ```bash
-./yyl-bridge -P [本地监听端口] -c -h [服务器地址] -p [服务器端口]
+./mzz-bridge-c -P [本地监听端口] -c -h [服务器地址] -p [服务器端口]
 ```
 
 **服务端**
 
 ```bash
-./yyl-bridge -P [本地监听端口] -s
+./mzz-bridge-c -P [本地监听端口] -s
 ```
 
 ### 版本信息
@@ -41,4 +41,4 @@ make
 
 ### 协议
 
-本项目使用[MIT协议](https://github.com/yunyuliu/yyl-bridge/blob/master/LICENSE)。
+本项目使用[MIT协议](https://github.com/muzaozong/mzz-bridge-c/blob/master/LICENSE)。
