@@ -2,8 +2,8 @@
 // Created by cayun on 2019-03-15.
 //
 
-#ifndef YYL_BRIDGE_SOCK5_H
-#define YYL_BRIDGE_SOCK5_H
+#ifndef MZZ_BRIDGE_C_SOCK5_H
+#define MZZ_BRIDGE_C_SOCK5_H
 
 #include "common.h"
 
@@ -83,4 +83,4 @@ size_t Sock5BuildResponse_getLength(struct Sock5BuildResponse response);
  */
 char* Sock5BuildResponse_toString(struct Sock5BuildResponse response);
 
-#endif //YYL_BRIDGE_SOCK5_H
+#endif //MZZ_BRIDGE_C_SOCK5_H

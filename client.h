@@ -2,11 +2,11 @@
 // Created by cayun on 2019-03-20.
 //
 
-#ifndef YYL_BRIDGE_CLIENT_H
-#define YYL_BRIDGE_CLIENT_H
+#ifndef MZZ_BRIDGE_C_CLIENT_H
+#define MZZ_BRIDGE_C_CLIENT_H
 
 #include "config.h"
 
 void startClient(struct Config config);
 
-#endif //YYL_BRIDGE_CLIENT_H
+#endif //MZZ_BRIDGE_C_CLIENT_H
