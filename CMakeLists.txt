@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
-project(mzz-bridge-c C)
+project(tawdemo-socks5-c C)
 
 set(CMAKE_C_STANDARD 99)
 

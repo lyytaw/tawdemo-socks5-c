@@ -13,8 +13,8 @@ int main(int argc, char *argv[]) {
     while ((opt = getopt(argc, argv, "P:csh:p:")) != EOF) {
         switch (opt) {
             case 'P': config.localPort = atoi(optarg); break;
-            case 'c': config.client = 1; break;
-            case 's': config.server = 1; break;
+            case 'c': config.client = 1; config.server = 0; break;
+            case 's': config.client = 0; config.server = 1; break;
             case 'h': config.serverHost = optarg; break;
             case 'p': config.serverPort = atoi(optarg); break;
         }
