@@ -1,6 +1,6 @@
-# mzz-bridge-c
+# tawdemo-socks5-c
 
-mzz-bridge-c为一个C语言编写的sock5代理工具，需要同时部署客户端和服务端。
+tawdemo-socks5-c为一个C语言编写的sock5代理工具，需要同时部署客户端和服务端。
 
 本项目仅作研究linux底层网络通信学习使用。
 
@@ -15,8 +15,8 @@ ps: 个人并不是专业写C语言的，使用C语言只是为了加深对网�
 ##### 1. 构建编译
 
 ```bash
-git clone https://github.com/muzaozong/mzz-bridge-c.git
-cd mzz-bridge-c
+git clone tawdemo-socks5-c
+cd tawdemo-socks5-c
 cmake .
 make
 ```
@@ -26,13 +26,13 @@ make
 **客户端**
 
 ```bash
-./mzz-bridge-c -P [本地监听端口] -c -h [服务器地址] -p [服务器端口]
+./tawdemo-socks5-c -P [本地监听端口] -c -h [服务器地址] -p [服务器端口]
 ```
 
 **服务端**
 
 ```bash
-./mzz-bridge-c -P [本地监听端口] -s
+./tawdemo-socks5-c -P [本地监听端口] -s
 ```
 
 ### 版本信息
@@ -43,4 +43,4 @@ make
 
 ### 协议
 
-本项目使用[MIT协议](https://github.com/muzaozong/mzz-bridge-c/blob/master/LICENSE)。
+本项目使用[MIT协议](https://github.com/lyytaw/tawdemo-socks5-c/blob/master/LICENSE)。
